@@ -4,7 +4,7 @@ const routes = require('./routes')
 const staticFolder = `${__dirname}/public`
 const app = express()
 
-app.use(express.statnpic(staticFolder))
+app.use(express.static(staticFolder))
 app.use('/api', authMiddleware)
 app.use('/api', routes)
 
