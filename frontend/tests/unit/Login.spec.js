@@ -9,8 +9,13 @@ import { firebaseApp } from '@/firebase'
 
 jest.mock('@/firebase', () => ({
   firebaseApp: {
+    signInWithEmailAndPassword: jest.fn(),
     auth: jest.fn().mockReturnValue({
-      signInWithEmailAndPassword: jest.fn()
+      signInWithEmailAndPassword: jest.fn(),
+      onAuthStateChanged: jest.fn().mockImplementation((callback) => {
+        const user = { name: 'Matias' }
+        callback(user)
+      })
     })
   }
 }))
