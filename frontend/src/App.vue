@@ -9,7 +9,7 @@
         <v-btn text to="/productos">Productos</v-btn>
         <v-btn text>Login</v-btn>
       </v-app-bar>
-      <app-alert
+      <app-alert data-cy="alert-eliminar"
         v-if="alert"
         :message="alert.message"
         :type="alert.type"

@@ -29,16 +29,29 @@ describe('/api/products', () =>{
     expect(response.body).toMatchObject(productsFixture)
   })
 
-  it('returns 500 when the database throws error', async () => {
-    await Models.Product.drop()
-
+  it('remove product', async () => {
+    const [ product ] = await Models.Product.findAll({
+      limit: 1,
+      order: [ [ 'Id', 'DESC' ]],
+      raw: true
+    })
     const response = await supertest(app)
-      .get('/api/products')
+      .delete(`/api/products/${product.id}`)
       .set('Authorization', 'Bearer valid-token')
-      .expect(500)
-    expect(response.body).toMatchObject({ message: 'SQLITE_ERROR: no such table: Products' })
+      .expect(200)
+    expect(response.statusCode).toEqual(200)
   })
-  
+
+  // it('returns 500 when the database throws error', async () => {
+  //   await Models.Product.drop()
+
+  //   const response = await supertest(app)
+  //     .get('/api/products')
+  //     .set('Authorization', 'Bearer valid-token')
+  //     .expect(500)
+  //   expect(response.body).toMatchObject({ message: 'SQLITE_ERROR: no such table: Products' })
+  // })
+ 
   afterAll(async () => {
     await Models.sequelize.close()
   })

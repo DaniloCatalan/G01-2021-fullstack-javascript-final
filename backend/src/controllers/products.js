@@ -24,5 +24,43 @@ module.exports = {
         .status(statusCode)
         .json({ message })
     }
+  },
+  async removeProduct(request, response) {
+    let statusCode = 200
+    const { params } = request
+
+    try {
+      const product = await Product.findOne({
+        where: {
+          id: params.id
+        }
+      })
+
+      if (product === null) {
+        return response.status(404).json( { message: `Product with id ${params.id} not found` })
+      }
+
+      await Product.destroy({
+        where: {
+          id: params.id
+        }
+      })
+
+      console.log(`DELETE with status code ${statusCode} in /api/products/${params.id} endpoint`)
+
+      response
+        .status(statusCode)
+        .send()
+      
+    } catch (error) {
+      const { message } = error
+      statusCode = 500
+
+      console.error(`DELETE with status code ${statusCode} in /api/products/${params.id} endpoint. Error: ${message}`)
+
+      return response
+        .status(statusCode)
+        .json({ message })
+    }
   }
 }

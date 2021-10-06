@@ -17,6 +17,11 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get('[data-cy=password]').type(password)
   cy.get('[data-cy=login-btn]').click()
 })
+
+Cypress.Commands.add('remove', () => {
+  cy.visit('/productos')
+  cy.get('[data-cy=btn-eliminar]').first().click()
+})
 //
 // -- This is a child command --
 // Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })

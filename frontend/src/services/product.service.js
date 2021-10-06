@@ -15,5 +15,18 @@ export default {
     } catch (error) {
       throw new Error('Productos momentáneamente no disponibles')
     }
+  },
+  async removeProduct (id) {
+    try {
+      const token = await firebaseApp.auth().currentUser?.getIdToken(true)
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        method: 'DELETE'
+      }
+      const response = await axios.delete(`${productsURL}/${id}`, { headers })
+      return response
+    } catch (error) {
+      throw new Error('Producto no eliminado')
+    }
   }
 }

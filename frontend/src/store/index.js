@@ -27,6 +27,20 @@ export default new Vuex.Store({
         console.error(error.message)
       }
     },
+    async removeProduct (actionContext, id) {
+      const { commit } = actionContext
+      try {
+        const response = await productService.removeProduct(id)
+        if (response.status === 200) {
+          const products = await productService.getProducts()
+          commit('SET_PRODUCTS', products)
+          const alert = { message: 'Producto eliminado exitosamente', type: 'success' }
+          commit('SET_ALERT', alert)
+        }
+      } catch (error) {
+        console.error(error.message)
+      }
+    },
     setAlert (actionContext, alert) {
       const { commit } = actionContext
       commit('SET_ALERT', alert)
